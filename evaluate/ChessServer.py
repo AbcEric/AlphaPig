@@ -140,7 +140,7 @@ class LoginHandler(BaseHandler):
                 hall.logout(self.current_user)
 
             username = hall.login_in_guest()
-            print username
+            print(username)
             if username:
                 self.set_secure_cookie("username", username)
                 self.redirect("/")
@@ -172,12 +172,24 @@ def main(listen_port):
         (r"/login", LoginHandler),
         (r"/action", ActionHandler),
     ], **settings)
+    print("listen port: ", listen_port)
     app.listen(listen_port)
     tornado.ioloop.IOLoop.current().start()
 
+from ChessBoard import ChessBoard
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--port', default=8888)
     args = parser.parse_args()
+
+    with open("test.txt", 'wb') as f:
+        board = ChessBoard()
+
+        # by = "TEST_B".encode(encoding="gb2312")
+        # print(by, type(by))
+        print(type(board))
+        f.write(board.dumps())
+        f.close()
+
     main(args.port)

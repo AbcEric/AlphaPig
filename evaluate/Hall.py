@@ -1,7 +1,8 @@
 import sys
 
 from ChessBoard import ChessBoard
-import cPickle as pickle
+# import cPickle as pickle
+import _pickle as pickle
 import random
 import string
 import os
@@ -270,9 +271,14 @@ class GameRoom(object):
             os.makedirs(self.chess_folder)
         import datetime
         tm = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-        chess_file = self.chess_folder + '/' + self.room_id + '_[' + '|'.join(
-            [user.uid for user in self.play_users]) + ']_' + tm + '.txt'
-        with open(chess_file, 'w') as f:
+
+        # decode将bytes转为string：
+        # chess_file = self.chess_folder + '/' + self.room_id + '_[' + '|'.join(
+        chess_file = self.room_id + '_' + '_'.join(
+            [user.uid.decode() for user in self.play_users]) + '_' + tm + '.txt'
+
+        # with open(chess_file, 'w') as f:
+        with open("2players.txt", 'w') as f:
             f.write(self.board.dumps())
 
     # def get_room_info(self):

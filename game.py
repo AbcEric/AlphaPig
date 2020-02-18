@@ -237,12 +237,15 @@ class Game(object):
         # 获取棋盘数据
         X_train = sgf_dataIter.get_data_from_files(file_name, sgf_home)
         data_length = len(X_train['seq_num_list'])   # 对弈长度（一盘棋盘数据的长度）
+        _logger.info("X_train=", X_train, "seq len=", data_length)
+
         self.board.init_board()
         p1, p2 = self.board.players
         # print('p1: ', p1, '   p2:  ', p2)
         states, mcts_probs, current_players = [], [], []
         # while True:
         for num_index, move in enumerate(X_train['seq_num_list']):
+            # print("num_index=", num_index)
             # move_, move_probs = player.get_action(self.board,
             #                                      temp=temp,
             #                                      return_prob=1)
@@ -258,6 +261,9 @@ class Game(object):
             # store the data
             # print('current_state: \n')
             # print(self.board.current_state())
+            # print("move=", move, "move_probs=", move_probs, "current_player=", self.board.current_player)
+            # print("state=", self.board.current_state())
+
             states.append(self.board.current_state())
             mcts_probs.append(move_probs)
             current_players.append(self.board.current_player)

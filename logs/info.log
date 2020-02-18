@@ -1,0 +1,47 @@
+2020-02-18 23:24:25 - INFO - __main__[line:71]: path: C:\My Projects\AlphaPig\sgf_data
+2020-02-18 23:24:25 - INFO - __main__[line:340]: enter training!
+2020-02-18 23:24:25 - INFO - __main__[line:288]: i=0
+2020-02-18 23:24:25 - INFO - __main__[line:139]: collect_selfplay_data ...
+2020-02-18 23:24:25 - INFO - __main__[line:148]: winner: 2, file: 【Poghosyan Albert○ vs ●Dvoeglazov Vladimir】【金星】【白胜】【第十届世界连珠锦标赛资格赛(QT)第四轮】【1714】.sgf 
+2020-02-18 23:24:25 - INFO - __main__[line:158]: game_batch_index: 0, length of data_buffer: 80
+2020-02-18 23:24:25 - INFO - __main__[line:294]: collection cost time: 0 
+2020-02-18 23:24:25 - INFO - __main__[line:296]: batch i:1, episode_len:10, buffer_len:80
+2020-02-18 23:24:25 - INFO - __main__[line:288]: i=1
+2020-02-18 23:24:25 - INFO - __main__[line:139]: collect_selfplay_data ...
+2020-02-18 23:24:26 - INFO - __main__[line:148]: winner: 2, file: 【朱立巍○ vs ●李亮】【岚月】【白胜】【首届北京市五子棋联赛暨“天王赛”】【2366】.sgf 
+2020-02-18 23:24:26 - INFO - __main__[line:158]: game_batch_index: 1, length of data_buffer: 448
+2020-02-18 23:24:26 - INFO - __main__[line:294]: collection cost time: 0 
+2020-02-18 23:24:26 - INFO - __main__[line:296]: batch i:2, episode_len:46, buffer_len:448
+2020-02-18 23:24:26 - INFO - __main__[line:288]: i=2
+2020-02-18 23:24:26 - INFO - __main__[line:139]: collect_selfplay_data ...
+2020-02-18 23:24:26 - INFO - __main__[line:148]: winner: 1, file: 【LysakovMikhail○ vs ●SerdyukovEgor】【斜月】【黑胜】【第17届俄罗斯锦标赛谱第十三轮】【5332】.sgf 
+2020-02-18 23:24:26 - INFO - __main__[line:158]: game_batch_index: 2, length of data_buffer: 712
+2020-02-18 23:24:26 - INFO - __main__[line:294]: collection cost time: 0 
+2020-02-18 23:24:26 - INFO - __main__[line:296]: batch i:3, episode_len:33, buffer_len:712
+2020-02-18 23:24:26 - INFO - __main__[line:201]: policy_update ...
+2020-02-18 23:24:36 - INFO - __main__[line:216]: data_buffer_len=712, state_batch_len=512
+2020-02-18 23:24:36 - INFO - __main__[line:218]: epochs 1
+2020-02-18 23:24:49 - INFO - __main__[line:224]: loss=7.603
+2020-02-18 23:25:21 - INFO - __main__[line:230]: kl=0.049
+2020-02-18 23:25:21 - INFO - __main__[line:218]: epochs 2
+2020-02-18 23:25:32 - INFO - __main__[line:224]: loss=6.789
+2020-02-18 23:26:03 - INFO - __main__[line:230]: kl=0.136
+2020-02-18 23:26:03 - INFO - __main__[line:232]: early stopping. i:1.   epochs: 3
+2020-02-18 23:26:03 - INFO - __main__[line:257]: kl:0.1359,lr:4.0e-04,loss:[6.7888966],entropy:[4.900107],explained_var_old:0.017,explained_var_new:0.095
+2020-02-18 23:26:03 - INFO - __main__[line:301]: train batch cost time: 97  loss: 6.789  entropy: 4.900
+2020-02-18 23:26:03 - INFO - __main__[line:288]: i=3
+2020-02-18 23:26:03 - INFO - __main__[line:139]: collect_selfplay_data ...
+2020-02-18 23:26:03 - INFO - __main__[line:148]: winner: 0, file: 【FilinovVladimir○ vs ●SalnikovPavel】【金星】【和棋】【第20届俄罗斯锦标赛最高联赛谱第八轮】【5799】.sgf 
+2020-02-18 23:26:03 - INFO - __main__[line:158]: game_batch_index: 3, length of data_buffer: 1088
+2020-02-18 23:26:03 - INFO - __main__[line:294]: collection cost time: 0 
+2020-02-18 23:26:03 - INFO - __main__[line:296]: batch i:4, episode_len:47, buffer_len:1088
+2020-02-18 23:26:03 - INFO - __main__[line:201]: policy_update ...
+2020-02-18 23:26:14 - INFO - __main__[line:216]: data_buffer_len=1088, state_batch_len=512
+2020-02-18 23:26:14 - INFO - __main__[line:218]: epochs 1
+2020-02-18 23:26:25 - INFO - __main__[line:224]: loss=6.593
+2020-02-18 23:26:54 - INFO - __main__[line:230]: kl=0.012
+2020-02-18 23:26:54 - INFO - __main__[line:218]: epochs 2
+2020-02-18 23:27:05 - INFO - __main__[line:224]: loss=6.177
+2020-02-18 23:27:35 - INFO - __main__[line:230]: kl=0.034
+2020-02-18 23:27:35 - INFO - __main__[line:218]: epochs 3
+2020-02-18 23:27:46 - INFO - __main__[line:224]: loss=5.880

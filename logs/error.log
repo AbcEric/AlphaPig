@@ -1,0 +1,18 @@
+2020-02-18 22:48:38 - ERROR - __main__[line:334]: can only concatenate str (not "int") to str
+Traceback (most recent call last):
+  File "C:/My Projects/AlphaPig/train_mxnet.py", line 332, in <module>
+    training_pipeline.run()
+  File "C:/My Projects/AlphaPig/train_mxnet.py", line 290, in run
+    loss, entropy = self.policy_update()
+  File "C:/My Projects/AlphaPig/train_mxnet.py", line 207, in policy_update
+    _logger.info("epochs %d" % i+1)
+TypeError: can only concatenate str (not "int") to str
+2020-02-18 23:14:45 - ERROR - __main__[line:344]: list indices must be integers or slices, not tuple
+Traceback (most recent call last):
+  File "C:/My Projects/AlphaPig/train_mxnet.py", line 342, in <module>
+    training_pipeline.run()
+  File "C:/My Projects/AlphaPig/train_mxnet.py", line 300, in run
+    loss, entropy = self.policy_update()
+  File "C:/My Projects/AlphaPig/train_mxnet.py", line 204, in policy_update
+    state_batch1 = mini_batch[:, 0]
+TypeError: list indices must be integers or slices, not tuple

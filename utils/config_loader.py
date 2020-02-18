@@ -8,7 +8,7 @@ import logging
 
 
 def load_config(data_path):
-    f = open(data_path, 'r')
+    f = open(data_path, 'r', encoding='UTF-8')
     conf = yaml.load(f)
     f.close()
     return conf

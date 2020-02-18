@@ -18,7 +18,8 @@ c_puct: 5
 # 数据集最大量（双端队列长度）
 buffer_size: 2198800
 batch_size: 512
-epochs: 8
+# epochs: 8
+epochs: 3
 play_batch_size: 1
 # KL散度
 kl_targ: 0.02

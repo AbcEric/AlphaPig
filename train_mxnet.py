@@ -136,6 +136,7 @@ class TrainPipeline():
 
     def collect_selfplay_data(self, n_games=1, training_index=None):
         """collect SGF file data for training"""
+        _logger.info("collect_selfplay_data ...")
         data_index = training_index % self._length_train_data
         if data_index == 0:
             random.shuffle(self._training_data)
@@ -147,10 +148,13 @@ class TrainPipeline():
                 _logger.info('winner: %s, file: %s ' % (winner, self._training_data[data_index]))
                 # print('play_data:  ', play_data)
                 play_data = list(play_data)[:]
+                # _logger.info(play_data)
+
                 self.episode_len = len(play_data)
                 # augment the data
                 play_data = self.get_equi_data(play_data)
                 self.data_buffer.extend(play_data)
+
         _logger.info('game_batch_index: %s, length of data_buffer: %s' % (training_index, len(self.data_buffer)))
 
     """
@@ -174,6 +178,7 @@ class TrainPipeline():
                                                           temp=self.temp)
             _logger.info('traing_index: %s,   winner is: %s' % (training_index, winner))
             play_data = list(play_data)[:]
+            _logger.info(play_data)
             self.episode_len = len(play_data)
             # augment the data
             play_data = self.get_equi_data(play_data)
@@ -193,23 +198,36 @@ class TrainPipeline():
 
     def policy_update(self):
         """update the policy-value net"""
+        _logger.info("policy_update ...")
         mini_batch = random.sample(self.data_buffer, self.batch_size)
         state_batch = [data[0] for data in mini_batch]
+
+        # state_batch1 = np.array(mini_batch)[:, 0].tolist()
+        # if state_batch == state_batch1:
+        #     _logger.info("EQUAL !!!!!")
+        # else:
+        #     print(len(state_batch), len(state_batch1))
         mcts_probs_batch = [data[1] for data in mini_batch]
         winner_batch = [data[2] for data in mini_batch]
+
         old_probs, old_v = self.policy_value_net.policy_value(state_batch)
         learn_rate = self.learn_rate*self.lr_multiplier
+
+        _logger.info("data_buffer_len=%d, state_batch_len=%d" % (len(self.data_buffer), len(state_batch)))
         for i in range(self.epochs):
+            _logger.info("epochs %d" % int(i+1))
             loss, entropy = self.policy_value_net.train_step(
                     state_batch,
                     mcts_probs_batch,
                     winner_batch,
                     learn_rate)
+            _logger.info("loss=%4.3f" % loss)
             new_probs, new_v = self.policy_value_net.policy_value(state_batch)
             kl = np.mean(np.sum(old_probs * (
                     np.log(old_probs + 1e-10) - np.log(new_probs + 1e-10)),
                     axis=1)
             )
+            _logger.info("kl=%4.3f" % kl)
             if kl > self.kl_targ * 4:  # early stopping if D_KL diverges badly
                 _logger.info('early stopping. i:%s.   epochs: %s' % (i, self.epochs))
                 break
@@ -267,17 +285,21 @@ class TrainPipeline():
         try:
             for i in range(self.game_batch_num):
                 current_time = time.time()
+                _logger.info("i=%d" %i)
                 if i < 4000:
+                    # 非常快：
                     self.collect_selfplay_data(1, training_index=i)
                 else:
                     self.collect_selfplay_data_ai(1, training_index=i)
                 _logger.info('collection cost time: %d ' % (time.time() - current_time))
                 _logger.info("batch i:{}, episode_len:{}, buffer_len:{}".format(
                         i+1, self.episode_len, len(self.data_buffer)))
+
                 if len(self.data_buffer) > self.batch_size:
                     batch_time = time.time()
                     loss, entropy = self.policy_update()
-                    _logger.info('train batch cost time: %d' % (time.time() - batch_time))
+                    _logger.info('train batch cost time: %d  loss: %4.3f  entropy: %4.3f' % ((time.time() - batch_time), loss, entropy))
+
                 # check the performance of the current model,
                 # and save the model params
                 if (i+1) % 50 == 0:
@@ -308,7 +330,7 @@ if __name__ == '__main__':
         policy_param = None 
         conf = config_loader.load_config('./conf/train_config.yaml')
         if model_file is not None:
-            _logger.info('loading...%s' %  model_file)
+            _logger.info('loading...%s' % model_file)
             try:
                 policy_param = pickle.load(open(model_file, 'rb'))
             except:

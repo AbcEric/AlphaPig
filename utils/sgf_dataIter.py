@@ -49,20 +49,29 @@ def get_data_from_files(file_name, data_dir):
     with open(os.path.join(data_dir, file_name)) as f:
         p = f.read()
         # 棋谱内容 开始/结束 位置
-        start = file_name.index('_') + 1
-        end = file_name.index('_.')
+        start = file_name.index('vs') + 1
+        end = file_name.index('.')
 
         sequence = p[p.index('SZ[15]')+7:-4]
+
         try:
             seq_list, seq_num_list = content_to_order(sequence)
+            print(seq_list, seq_num_list)
         except Exception as e:
             print('***' * 20)
             print(e)
             print(file_name)
-        if file_name[file_name.index('_')+1:file_name.index('_')+6] == 'Blank' or file_name[file_name.index('_')+1:file_name.index('_')+6] == 'blank':
-            winner = 1 
-        if file_name[file_name.index('_')+1:file_name.index('_')+6] == 'White' or file_name[file_name.index('_')+1:file_name.index('_')+6] == 'white':
+        # if file_name[file_name.index('_')+1:file_name.index('_')+6] == 'Blank' or file_name[file_name.index('_')+1:file_name.index('_')+6] == 'blank':
+
+        if "黑胜" in file_name:
+            winner = 1
+        # if file_name[file_name.index('_')+1:file_name.index('_')+6] == 'White' or file_name[file_name.index('_')+1:file_name.index('_')+6] == 'white':
+
+        elif "白胜" in file_name:
             winner = 2
+        else:
+            winner = 0
+
         return {'winner': winner, 'seq_list': seq_list, 'seq_num_list': seq_num_list, 'file_name':file_name}
 
 
@@ -76,6 +85,7 @@ def read_files(data_dir):
         if index >= len(file_list): yield None
         with open(data_dir+file_list[index]) as f:
             p = f.read()
+            print("p=", p)
             # 棋谱内容 开始/结束 位置
             start = file_list[index].index('_') + 1
             end = file_list[index].index('_.')
@@ -87,6 +97,7 @@ def read_files(data_dir):
                 print('***' * 20)
                 print(e)
                 print(file_list[index])
+
         if sequence[-5] == 'B' or sequence[-5] == 'b':
             winner = 1 
         if sequence[-5] == 'W' or sequence[-5] == 'w':
@@ -136,16 +147,16 @@ def gamemain(seq_list):
     index = 2
 
     while True:
-        print ''
+        print('')
         while 1:
-            print '<ROUND %d>' % (len(history) + 1)
+            print('<ROUND %d>' % (len(history) + 1))
             b.show()
-            print '该你移动了： (u:悔棋, q:退出):',
+            print('该你移动了： (u:悔棋, q:退出):',)
             # 默认一直继续下去
-            text = raw_input().strip('\r\n\t ')
+            text = input().strip('\r\n\t ')
             text = '%s' % num2char(seq_list[index])
-            print 'char:  ', num2char(seq_list[index])
-            print 'num:  ', seq_list[index]
+            print('char:  ', num2char(seq_list[index]))
+            print('num:  ', seq_list[index])
             index += 1
             if len(text) == 2:
                 tr = ord(text[0].upper()) - ord('A')
@@ -155,23 +166,23 @@ def gamemain(seq_list):
                         row, col = tr, tc
                         break
                     else:
-                        print '已经有棋子在这里了！'
+                        print('已经有棋子在这里了！')
                 else:
-                    print text
-                    print '不在棋盘内！'
+                    print(text)
+                    print('不在棋盘内！')
             elif text.upper() == 'U':
                 undo = True
                 break
             elif text.upper() == 'Q':
-                print b.dumps()
+                print(b.dumps())
                 return 0
 
         if undo == True:
             undo = False
             if len(history) == 0:
-                print '棋盘已经清空，无法继续悔棋了！'
+                print('棋盘已经清空，无法继续悔棋了！')
             else:
-                print '悔棋中，回退历史棋局 ...'
+                print('悔棋中，回退历史棋局 ...')
                 move = history.pop()
                 b.loads(move)
         else:
@@ -181,9 +192,9 @@ def gamemain(seq_list):
 
             if b.check() == 1:
                 # b.show()
-                print b.dumps()
-                print ''
-                print 'YOU WIN !!'
+                print(b.dumps())
+                print('')
+                print('YOU WIN !!')
                 return 0
 
             # print 'AI正在思考 ...'
@@ -196,7 +207,7 @@ def gamemain(seq_list):
             # 棋盘字符==>数字
             row, col = ord(text_ai[0].upper())-65, ord(text_ai[1].upper())-65
             cord = '%s%s' % (chr(ord('A') + row), chr(ord('A') + col))
-            print 'AI 移动到:  %s ' % (cord)
+            print('AI 移动到:  %s ' % (cord))
             # xtt = input('go on: ')
             b[row][col] = 2
             xtt = input('go on:')
@@ -204,9 +215,9 @@ def gamemain(seq_list):
 
             if b.check() == 2:
                 # b.show()
-                print b.dumps()
-                print ''
-                print 'YOU LOSE.'
+                print(b.dumps())
+                print('')
+                print('YOU LOSE.')
                 return 0
 
     return 0
@@ -214,16 +225,18 @@ def gamemain(seq_list):
 
 if __name__ == '__main__':
     data = read_files(sgf_home)
+    print("read files ok ...")
     x = None
     y = None
     for i in range(4800):
+        print("i=", i)
         y = x
         x = data.next()
         if x == None:
             print('whole loop: ', i)
             print('index: ', y['index'])
             print('index: ', y['file_name'])
-            print '\n'
+            print('\n')
             break
         else:
             pass

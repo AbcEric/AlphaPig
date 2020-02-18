@@ -1,6 +1,7 @@
 import numpy as np
 import time
-import cPickle as pickle
+# import cPickle as pickle
+import _pickle as pickle
 
 
 class ChessBoard(object):
@@ -77,15 +78,15 @@ class ChessBoard(object):
         # self.last_move = (row, col)
 
         # check if win
-        for dx in xrange(4):
+        for dx in range(4):
             connected_piece_num = 1
-            for dy in xrange(2):
+            for dy in range(2):
                 current_direct = ChessBoard.CHECK_DIRECTION[dx][dy]
                 c_row = row
                 c_col = col
 
                 # if else realization
-                for dz in xrange(4):
+                for dz in range(4):
                     c_row += current_direct[0]
                     c_col += current_direct[1]
                     if self.get_piece(c_row, c_col) == user:

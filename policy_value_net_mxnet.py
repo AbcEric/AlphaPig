@@ -19,7 +19,7 @@ import pickle
 class PolicyValueNet():
     """policy-value network """
     def __init__(self, board_width, board_height, batch_size=512, n_blocks=8, n_filter=128, model_params=None):
-        self.context = mx.gpu(0)
+        # self.context = mx.gpu(0)
         self.batchsize = batch_size  #must same to the TrainPipeline's self.batch_size.
         self.channelnum = 9
         self.board_width = board_width
@@ -197,8 +197,8 @@ class PolicyValueNet():
 
         pv_train = mx.mod.Module(symbol=policy_value_loss, 
                                  data_names=['input_states'],
-                                 label_names=['input_labels', 'mcts_probs'],
-                                 context=self.context) 
+                                 label_names=['input_labels', 'mcts_probs'],)
+                                 # context=self.context)
         pv_train.bind(data_shapes=[('input_states', input_states_shape)], 
                       label_shapes=[('input_labels', input_labels_shape), ('mcts_probs', mcts_probs_shape)],
                       for_training=True)
@@ -220,8 +220,8 @@ class PolicyValueNet():
 
         pv_predict = mx.mod.Module(symbol=policy_value_output, 
                                    data_names=['input_states'],
-                                   label_names=None,
-                                   context=self.context) 
+                                   label_names=None,)
+                                   # context=self.context)
         
         pv_predict.bind(data_shapes=[('input_states', input_states_shape)], for_training=False)
         args, auxs = self.train_batch.get_params()
